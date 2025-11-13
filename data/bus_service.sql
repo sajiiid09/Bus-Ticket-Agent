@@ -64,15 +64,17 @@ INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_tim
 (2, 'Dhaka', 'Chattogram', '20:00', '02:00', 32, 40, 350.00, 'Sadarghat, Motijheel', 10004),
 (3, 'Dhaka', 'Barishal', '16:00', '21:00', 40, 40, 280.00, 'Farmgate, Gulshan', 10005);
 
--- Initialize seat_info for each trip
-INSERT INTO seat_info (trip_no, seat_number, status) VALUES
-(10001, 'A1', 'available'), (10001, 'A2', 'available'), (10001, 'A3', 'available'), (10001, 'A4', 'available'),
-(10001, 'B1', 'available'), (10001, 'B2', 'available'), (10001, 'B3', 'available'), (10001, 'B4', 'available'),
-(10001, 'C1', 'available'), (10001, 'C2', 'available'), (10001, 'C3', 'available'), (10001, 'C4', 'available'),
-(10001, 'D1', 'available'), (10001, 'D2', 'available'), (10001, 'D3', 'available'), (10001, 'D4', 'available'),
-(10001, 'E1', 'available'), (10001, 'E2', 'available'), (10001, 'E3', 'available'), (10001, 'E4', 'available'),
-(10001, 'F1', 'available'), (10001, 'F2', 'available'), (10001, 'F3', 'available'), (10001, 'F4', 'available'),
-(10001, 'G1', 'available'), (10001, 'G2', 'available'), (10001, 'G3', 'available'), (10001, 'G4', 'available'),
-(10001, 'H1', 'available'), (10001, 'H2', 'available'), (10001, 'H3', 'available'), (10001, 'H4', 'available'),
-(10001, 'I1', 'available'), (10001, 'I2', 'available'), (10001, 'I3', 'available'), (10001, 'I4', 'available'),
-(10001, 'J1', 'available'), (10001, 'J2', 'available'), (10001, 'J3', 'available'), (10001, 'J4', 'available');
+-- Initialize seat_info for every trip with a 4x10 layout (A1-J4)
+INSERT INTO seat_info (trip_no, seat_number, status)
+SELECT bl.trip_no,
+       CONCAT(rows.row_label, cols.col_number) AS seat_number,
+       'available' AS status
+FROM bus_lists bl
+CROSS JOIN (
+    SELECT 'A' AS row_label UNION ALL SELECT 'B' UNION ALL SELECT 'C' UNION ALL SELECT 'D'
+    UNION ALL SELECT 'E' UNION ALL SELECT 'F' UNION ALL SELECT 'G' UNION ALL SELECT 'H'
+    UNION ALL SELECT 'I' UNION ALL SELECT 'J'
+) AS rows
+CROSS JOIN (
+    SELECT 1 AS col_number UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+) AS cols;

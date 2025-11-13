@@ -14,9 +14,9 @@
             <div class="col-lg-3 col-md-6">
                 <h5>Important Links</h5>
                 <ul class="footer-links">
-                    <li><a href="#" data-toggle="modal" data-target="#modalTerms">Terms of Use</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#modalPrivacy">Privacy Policy</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#modalCancellation">Cancellation Policy</a></li>
+                    <li><a href="mailto:support@busticket.bd">Terms of Use</a></li>
+                    <li><a href="mailto:support@busticket.bd">Privacy Policy</a></li>
+                    <li><a href="mailto:support@busticket.bd">Cancellation Policy</a></li>
                 </ul>
             </div>
             
@@ -45,10 +45,10 @@
     </div>
 </footer>
 
-<!-- jQuery -->
-<script src="assets/vendor/jquery.js"></script>
-<!-- Bootstrap 4 JS -->
-<script src="assets/vendor/bootstrap4/js/bootstrap.js"></script>
+<!-- jQuery (CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJ+Y3Vd6Kp9hO5J5v7Q5d6ZNk+4Z+7dBDEH8=" crossorigin="anonymous"></script>
+<!-- Bootstrap 4 Bundle (with Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2LcF7cqw2EuKq52WgG0nU6UktO3jqZ9PEnBvC8F2v7" crossorigin="anonymous"></script>
 <!-- Custom Scripts -->
 <script src="assets/js/scripts.js"></script>
 </body>

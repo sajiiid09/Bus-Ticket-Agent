@@ -28,7 +28,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-primary);
   background-color: #ffffff;
 }
@@ -194,6 +194,43 @@ body {
 
 .btn-search:active {
   transform: translateY(0);
+}
+
+/* ===== Route Map Section (results page) ===== */
+.route-map-section {
+  background: #ffffff;
+  padding: 40px 20px 80px;
+}
+
+.route-map-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--neutral-50);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.route-map-card h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.route-map-card p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.route-map-preview img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--neutral-200);
 }
 
 /* ===== Trip Progress Indicator ===== */
@@ -651,7 +688,24 @@ body {
   display: none;
 }
 
-/* Seat Selection Modal Styles */
+/* Seat Selection Page Styles */
+.seat-selection-page {
+  padding: 40px 20px 80px;
+  background: var(--neutral-100);
+}
+
+.seat-selection-page .container {
+  max-width: 1000px;
+}
+
+.seat-grid-wrapper {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Legacy modal class kept for compatibility */
 .seat-selection-container {
   padding: 0;
   max-height: 80vh;
