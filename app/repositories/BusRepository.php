@@ -59,9 +59,31 @@ class BusRepository {
                 FROM bus_lists bl
                 JOIN bus_info bi ON bl.bus_id = bi.id
                 WHERE bl.trip_no = $trip_no";
-        
+
         $result = $this->db->query($sql);
         return $this->db->fetchAssoc($result);
+    }
+
+    /**
+     * Return a sorted list of distinct cities that appear in routes
+     * so dropdowns on the search page can be populated dynamically.
+     */
+    public function getRouteCities() {
+        $sql = "SELECT route_from AS city FROM bus_lists
+                UNION
+                SELECT route_to AS city FROM bus_lists
+                ORDER BY city ASC";
+
+        $result = $this->db->query($sql);
+        $cities = [];
+
+        while ($row = $this->db->fetchAssoc($result)) {
+            if (!empty($row['city'])) {
+                $cities[] = $row['city'];
+            }
+        }
+
+        return $cities;
     }
 }
 ?>

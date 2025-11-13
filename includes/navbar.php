@@ -21,13 +21,10 @@
                     <a class="nav-link" href="index.php#operators">Bus Operators</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modalRouteMap">Routes Map</a>
+                    <a class="nav-link" href="search_result.php#route-map">Routes Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modalVerifyPayment">Verify Payment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modalContact">Contact</a>
+                    <a class="nav-link" href="mailto:support@busticket.bd">Contact</a>
                 </li>
             </ul>
         </div>

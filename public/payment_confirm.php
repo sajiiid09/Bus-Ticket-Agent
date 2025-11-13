@@ -13,16 +13,18 @@ $busRepo = new BusRepository();
 $booking = null;
 $trip = null;
 
+// Handle payment confirmation (mock)
+$payment_confirmed = false;
+$transaction_id = null;
+
 if ($booking_id) {
     $booking = $resService->getBooking($booking_id);
     if ($booking) {
         $trip = $busRepo->getTripDetails($booking['trip_no']);
+        $payment_confirmed = $booking['status'] === 'confirmed';
+        $transaction_id = $booking['transaction_id'];
     }
 }
-
-// Handle payment confirmation (mock)
-$payment_confirmed = false;
-$transaction_id = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_payment'])) {
     // Generate mock transaction ID
