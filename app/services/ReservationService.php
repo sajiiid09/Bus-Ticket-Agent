@@ -42,8 +42,6 @@ class ReservationService {
     }
 
     public function createBooking($trip_no, $passenger_name, $mobile, $gender, $selected_seats, $boarding_point, $payment_method, $total_fare) {
-        $this->ensureSeatInventory($trip_no);
-
         $seat_string = $selected_seats;
 
         $trip_no = $this->db->escape($trip_no);
@@ -144,35 +142,6 @@ class ReservationService {
         $trip_no = $this->db->escape($trip_no);
         $sql = "UPDATE bus_lists SET available_seats = GREATEST(0, available_seats - $seat_count) WHERE trip_no = $trip_no";
         $this->db->query($sql);
-    }
-
-    private function ensureSeatInventory($trip_no) {
-        $trip_no = intval($trip_no);
-        if ($trip_no <= 0) {
-            return;
-        }
-
-        $trip_no_escaped = $this->db->escape($trip_no);
-        $result = $this->db->query("SELECT COUNT(*) AS seat_count FROM seat_info WHERE trip_no = $trip_no_escaped");
-        $row = $result ? $this->db->fetchAssoc($result) : null;
-
-        if ($row && intval($row['seat_count']) > 0) {
-            return;
-        }
-
-        $seat_values = [];
-        foreach (range('A', 'J') as $row_label) {
-            for ($i = 1; $i <= 4; $i++) {
-                $seat_number = $row_label . $i;
-                $escaped_seat = $this->db->escape($seat_number);
-                $seat_values[] = "($trip_no_escaped, '$escaped_seat', 'available')";
-            }
-        }
-
-        if (!empty($seat_values)) {
-            $values_sql = implode(',', $seat_values);
-            $this->db->query("INSERT INTO seat_info (trip_no, seat_number, status) VALUES $values_sql");
-        }
     }
 }
 ?>

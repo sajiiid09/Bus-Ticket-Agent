@@ -133,9 +133,45 @@ if ($from_city && $to_city) {
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<?php require_once '../includes/footer.php'; ?>
+<script>
+// Store trip data in session for seat selection
+$('.btn-select-bus').on('click', function() {
+    const tripId = $(this).data('trip-id');
+    const tripFare = $(this).data('trip-fare');
+    const tripName = $(this).data('trip-name');
+    const tripTime = $(this).data('trip-time');
+    
+    // Store in sessionStorage for access in seat_info
+    sessionStorage.setItem('trip_no', tripId);
+    sessionStorage.setItem('trip_fare_per_seat', tripFare);
+    sessionStorage.setItem('trip_name', tripName);
+    sessionStorage.setItem('trip_time', tripTime);
+    
+    // Load seat selection modal
+    loadSeatSelection(tripId);
+});
+
+// Load seat selection via AJAX
+function loadSeatSelection(tripId) {
+    $.ajax({
+        url: 'seat_info.php',
+        method: 'POST',
+        data: { trip_no: tripId, action: 'load_seats' },
+        success: function(data) {
+            $('#seatSelectionContent').html(data);
+            $('#modalSeatSelection').modal('show');
+            if (typeof initializeSeatSelectionUI === 'function') {
+                initializeSeatSelectionUI();
+            }
+        },
+        error: function() {
+            alert('Error loading seats. Please try again.');
+        }
+    });
+}
+</script>
 
 <style>
 /* Results Header Styling */
