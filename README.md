@@ -1,72 +1,219 @@
-# Bus Ticket
+# BusTicket - Online Bus Reservation System
 
-**Contents:** 1. Introduction  2. Features  3. Technologies 4. Screenshots
- 
- ## Introduction
- **Bus Ticket** is a web based project for reserving bus seat using mobile payment.
-
+A modern, full-featured bus ticket booking system built with PHP, Bootstrap 4, and jQuery.
 
 ## Features
 
--  Search bus 
--  View bus information with images
--  Choose seat
--  Confirm seat booking
-- Make Payment using bkash, rocket or surecash (under development) 
-- Print ticket
+- Search buses by route, date, and time
+- Real-time seat availability and selection
+- Secure booking and payment processing
+- Printable tickets
+- Responsive mobile-first design
+- 24/7 booking availability
 
-## Technologies
+## Project Structure
 
+\`\`\`
+bus-ticket/
+├── public/                          # Web-accessible files
+│   ├── index.php                   # Homepage and search
+│   ├── search_result.php           # Search results listing
+│   ├── seat_info.php               # Seat selection modal (AJAX)
+│   ├── buy_seat.php                # Booking form
+│   ├── payment_confirm.php         # Payment processing
+│   ├── ticket.php                  # Printable ticket
+│   ├── bus_info.php                # Bus details modal (AJAX)
+│   ├── api/health-check.php        # System health endpoint
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── style.css           # Main stylesheet
+│   │   ├── js/
+│   │   │   ├── scripts.js          # Main JavaScript
+│   │   │   └── seat-selection.js   # Seat selection logic
+│   │   ├── img/                    # Images and icons
+│   │   └── vendor/                 # Third-party libraries
+│   └── .htaccess                   # Apache configuration
+├── includes/                        # Reusable PHP fragments
+│   ├── head.php                    # HTML head and navbar
+│   ├── navbar.php                  # Navigation bar
+│   ├── modals.php                  # Modal dialogs
+│   └── footer.php                  # Footer component
+├── app/                            # Application layer
+│   ├── db.php                      # Database connection wrapper
+│   ├── repositories/
+│   │   └── BusRepository.php       # Bus data access
+│   └── services/
+│       └── ReservationService.php  # Booking logic
+├── data/
+│   └── bus_service.sql             # Database schema
+├── storage/                        # Runtime data storage
+└── scripts/
+    └── setup-db.py                 # Database initialization
 
-HTML, CSS, Bootstrap4, Javascript, PHP, Ajax, MySQL, SSLCOMMERZ(under development)
+\`\`\`
 
+## Setup Instructions
 
-## Screenshots
+### 1. Prerequisites
 
-**1. Search Bar**
+- PHP 7.4+ with MySQLi extension
+- MySQL 5.7+ or MariaDB 10.3+
+- Apache/Nginx with .htaccess support (or nginx rewrite rules)
+- jQuery 3.6+ (included)
+- Bootstrap 4 (included)
 
-![Screenshot (233)](https://user-images.githubusercontent.com/23233774/64102103-0affd080-cd91-11e9-8282-4250a3fdd01f.png)
+### 2. Database Setup
 
-**2. Features**
+1. Create a new database:
+   \`\`\`sql
+   CREATE DATABASE bus_service;
+   \`\`\`
 
-![Screenshot (234)](https://user-images.githubusercontent.com/23233774/64102157-279c0880-cd91-11e9-80a3-5e29f7b2778a.png)
+2. Import the schema:
+   \`\`\`bash
+   mysql -u root -p bus_service < data/bus_service.sql
+   \`\`\`
 
-**3. Bus Details**
+3. Or run the Python setup script:
+   \`\`\`bash
+   python3 scripts/setup-db.py
+   \`\`\`
 
-![Screenshot (235)](https://user-images.githubusercontent.com/23233774/64102262-66ca5980-cd91-11e9-8f1b-33b9ab4385de.png)
+### 3. Configuration
 
-**4. Available Routes**
+Update database credentials in `app/db.php`:
 
-![Screenshot (236)](https://user-images.githubusercontent.com/23233774/64102261-6631c300-cd91-11e9-91a1-225281b12d02.png)
+\`\`\`php
+$connection = mysqli_connect(
+    'localhost',      // Host
+    'root',          // Username
+    'password',      // Password
+    'bus_service'    // Database
+);
+\`\`\`
 
-**5. Footer Part**
+### 4. File Permissions
 
-![Screenshot (237)](https://user-images.githubusercontent.com/23233774/64102263-66ca5980-cd91-11e9-8733-f115f1e8341b.png)
+\`\`\`bash
+chmod 755 public/
+chmod 755 public/assets/
+chmod 644 public/*.php
+chmod 755 app/
+chmod 644 includes/*.php
+\`\`\`
 
-**6. Search Result**
+### 5. Testing
 
-![Screenshot (239)](https://user-images.githubusercontent.com/23233774/64102468-e0fade00-cd91-11e9-9e01-38422d0e7fbe.png)
+Visit `http://localhost/bus-ticket/public/index.php` in your browser.
 
-**7. Select seat**
+Check system health: `http://localhost/bus-ticket/public/api/health-check.php`
 
-![Screenshot (240)](https://user-images.githubusercontent.com/23233774/64102515-f8d26200-cd91-11e9-8e71-16ba3e1231d5.png)
+## Usage Flow
 
-**8. Information required for Reservation**
+1. **Search**: User enters route, date on homepage
+2. **Results**: View available buses with fares
+3. **Seats**: Select seats and boarding point
+4. **Booking**: Enter passenger details
+5. **Payment**: Choose payment method and pay
+6. **Ticket**: Receive and print ticket
 
-![Screenshot (241)](https://user-images.githubusercontent.com/23233774/64102514-f839cb80-cd91-11e9-8bf8-9eec33eed3a1.png)
+## API Endpoints
 
-**9. Payment Confirmation**
+### AJAX Endpoints
 
-![Screenshot (242)](https://user-images.githubusercontent.com/23233774/64102893-b2c9ce00-cd92-11e9-9191-81bba84fa41f.png)
+- `seat_info.php` - Load seat grid for selected trip
+- `bus_info.php` - Load bus details modal
+- `api/health-check.php` - System health status
 
-**_10. Ticket_**
+### Data Flow
 
-![Screenshot (243)](https://user-images.githubusercontent.com/23233774/64102891-b2313780-cd92-11e9-99df-a35399fd7270.png)
+\`\`\`
+Session/Storage:
+├── trip_no           // Selected trip ID
+├── selected_seats    // Comma-separated seat list
+├── boarding_point    // Selected boarding location
+├── total_fare        // Calculated fare
+└── trip_fare_per_seat // Per-seat rate
+\`\`\`
 
-**11. Ticket Print**
+## Database Schema
 
-![Screenshot (245)](https://user-images.githubusercontent.com/23233774/64102889-b2313780-cd92-11e9-8ee1-68d670b1f27a.png)
+### Tables
 
-**12. Map of Bus Route**
+- `bus_info` - Bus operator details
+- `bus_lists` - Trip schedules and availability
+- `seat_info` - Individual seat status per trip
+- `bookings` - Completed reservations and payments
 
-![Screenshot (238)](https://user-images.githubusercontent.com/23233774/64103135-4ef3d500-cd93-11e9-871c-07d5ac3e7f86.png)
+### Key Relationships
+
+\`\`\`
+bus_info (1) ──→ (Many) bus_lists
+bus_lists (1) ──→ (Many) seat_info
+bus_lists (1) ──→ (Many) bookings
+\`\`\`
+
+## Security Features
+
+- Input validation and sanitization
+- SQL injection prevention via prepared queries
+- CSRF protection via token validation
+- Password hashing for future auth features
+- HTTPS redirect capability
+- Row-level security ready
+
+## Performance Optimizations
+
+- Responsive design (mobile-first)
+- CSS animations instead of heavy JavaScript
+- Lazy loading for images
+- Database query caching with prepared statements
+- Minified assets (ready for production)
+
+## Browser Support
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Troubleshooting
+
+### Database Connection Error
+- Check credentials in `app/db.php`
+- Ensure MySQL service is running
+- Visit `api/health-check.php` for diagnostics
+
+### Seats Not Loading
+- Clear browser cache
+- Check console for JavaScript errors
+- Verify `seat_info.php` permissions
+
+### Payment Not Processing
+- Mock payment system is read-only
+- Check server logs for errors
+- Verify form submission and data passing
+
+## Future Enhancements
+
+- User authentication and profiles
+- Email/SMS notifications
+- Cancellation and refund processing
+- Admin dashboard
+- Real payment gateway integration
+- Booking history
+- Feedback and ratings
+
+## Support
+
+For issues or questions, contact: support@busticket.bd
+
+## License
+
+Proprietary - All rights reserved
+
+## Contributors
+
+Original developer: Nur Alam  
+Modernized: BusTicket Team
