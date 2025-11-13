@@ -176,5 +176,4 @@ Proprietary - All rights reserved
 
 ## Contributors
 
-Original developer: Nur Alam  
-Modernized: BusTicket Team
+Sajid Mahmud
