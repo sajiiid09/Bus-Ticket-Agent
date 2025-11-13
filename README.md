@@ -11,46 +11,7 @@ A modern, full-featured bus ticket booking system built with PHP, Bootstrap 4, a
 - Responsive mobile-first design
 - 24/7 booking availability
 
-## Project Structure
 
-\`\`\`
-bus-ticket/
-├── public/                          # Web-accessible files
-│   ├── index.php                   # Homepage and search
-│   ├── search_result.php           # Search results listing
-│   ├── seat_info.php               # Seat selection modal (AJAX)
-│   ├── buy_seat.php                # Booking form
-│   ├── payment_confirm.php         # Payment processing
-│   ├── ticket.php                  # Printable ticket
-│   ├── bus_info.php                # Bus details modal (AJAX)
-│   ├── api/health-check.php        # System health endpoint
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── style.css           # Main stylesheet
-│   │   ├── js/
-│   │   │   ├── scripts.js          # Main JavaScript
-│   │   │   └── seat-selection.js   # Seat selection logic
-│   │   ├── img/                    # Images and icons
-│   │   └── vendor/                 # Third-party libraries
-│   └── .htaccess                   # Apache configuration
-├── includes/                        # Reusable PHP fragments
-│   ├── head.php                    # HTML head and navbar
-│   ├── navbar.php                  # Navigation bar
-│   ├── modals.php                  # Modal dialogs
-│   └── footer.php                  # Footer component
-├── app/                            # Application layer
-│   ├── db.php                      # Database connection wrapper
-│   ├── repositories/
-│   │   └── BusRepository.php       # Bus data access
-│   └── services/
-│       └── ReservationService.php  # Booking logic
-├── data/
-│   └── bus_service.sql             # Database schema
-├── storage/                        # Runtime data storage
-└── scripts/
-    └── setup-db.py                 # Database initialization
-
-\`\`\`
 
 ## Setup Instructions
 
