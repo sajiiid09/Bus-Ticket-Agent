@@ -6,21 +6,20 @@
 require_once '../app/repositories/BusRepository.php';
 require_once '../app/services/ReservationService.php';
 
-header('Content-Type: application/json');
-
 $trip_no = isset($_POST['trip_no']) ? intval($_POST['trip_no']) : 0;
 $action = isset($_POST['action']) ? $_POST['action'] : 'load_seats';
 
 if ($action === 'load_seats' && $trip_no) {
     $busRepo = new BusRepository();
     $resService = new ReservationService();
-    
+
     $trip = $busRepo->getTripDetails($trip_no);
     $available_seats = $resService->getAvailableSeats($trip_no);
     $reserved_seats = $resService->getReservedSeats($trip_no);
-    
+
     // If JSON response expected
     if (isset($_GET['format']) && $_GET['format'] === 'json') {
+        header('Content-Type: application/json');
         echo json_encode([
             'available' => $available_seats,
             'reserved' => $reserved_seats,
@@ -28,7 +27,9 @@ if ($action === 'load_seats' && $trip_no) {
         ]);
         exit;
     }
-    
+
+    header('Content-Type: text/html; charset=UTF-8');
+
     // HTML response for modal
     $html = '';
     $html .= '<div class="seat-selection-container">';
@@ -110,4 +111,8 @@ if ($action === 'load_seats' && $trip_no) {
     echo $html;
     exit;
 }
+
+header('Content-Type: text/html; charset=UTF-8');
+echo '<div class="alert alert-warning">Unable to load seat information at this moment. Please refresh and try again.</div>';
+exit;
 ?>

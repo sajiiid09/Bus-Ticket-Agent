@@ -167,6 +167,9 @@ function loadSeatSelection(tripId) {
         success: function(data) {
             $('#seatSelectionContent').html(data);
             $('#modalSeatSelection').modal('show');
+            if (typeof initializeSeatSelectionUI === 'function') {
+                initializeSeatSelectionUI();
+            }
         },
         error: function() {
             alert('Error loading seats. Please try again.');
