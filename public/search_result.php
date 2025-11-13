@@ -102,9 +102,9 @@ if ($from_city && $to_city) {
                             <span class="fare-label">From</span>
                             <span class="fare-amount">৳<?php echo number_format($trip['fare'], 0); ?></span>
                         </div>
-                        <button class="btn-select-bus" data-trip-id="<?php echo $trip['trip_no']; ?>" data-trip-fare="<?php echo $trip['fare']; ?>" data-trip-name="<?php echo htmlspecialchars($trip['bus_name']); ?>" data-trip-time="<?php echo date('H:i', strtotime($trip['departure_time'])); ?>">
+                        <a class="btn-select-bus" href="seat_info.php?trip=<?php echo $trip['trip_no']; ?>">
                             Select Bus
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -120,21 +120,16 @@ if ($from_city && $to_city) {
     </div>
 </section>
 
-<?php require_once '../includes/modals.php'; ?>
-<?php require_once '../includes/footer.php'; ?>
-
-<!-- Bus Info Modal Handler -->
-<div class="modal fade" id="modalBusDetails" tabindex="-1" role="dialog" aria-labelledby="modalBusDetailsLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalBusDetailsLabel">Bus Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Static Route Map for reference -->
+<section class="route-map-section" id="route-map">
+    <div class="container">
+        <div class="route-map-card">
+            <div>
+                <h2>Popular Route Map</h2>
+                <p>Preview the coverage map for major intercity routes before finalizing your booking.</p>
             </div>
-            <div class="modal-body" id="busDetailsContent">
-                <!-- Loaded via AJAX -->
+            <div class="route-map-preview">
+                <img src="placeholder.svg" alt="Routes map preview" />
             </div>
         </div>
     </div>

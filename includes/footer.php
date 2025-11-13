@@ -14,9 +14,9 @@
             <div class="col-lg-3 col-md-6">
                 <h5>Important Links</h5>
                 <ul class="footer-links">
-                    <li><a href="#" data-toggle="modal" data-target="#modalTerms">Terms of Use</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#modalPrivacy">Privacy Policy</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#modalCancellation">Cancellation Policy</a></li>
+                    <li><a href="mailto:support@busticket.bd">Terms of Use</a></li>
+                    <li><a href="mailto:support@busticket.bd">Privacy Policy</a></li>
+                    <li><a href="mailto:support@busticket.bd">Cancellation Policy</a></li>
                 </ul>
             </div>
             
