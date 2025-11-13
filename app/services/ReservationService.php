@@ -14,6 +14,7 @@ class ReservationService {
     }
 
     public function getAvailableSeats($trip_no) {
+        $this->ensureSeatInventory($trip_no);
         $trip_no = $this->db->escape($trip_no);
         $sql = "SELECT * FROM seat_info WHERE trip_no = $trip_no AND status = 'available'";
         $result = $this->db->query($sql);
@@ -27,6 +28,7 @@ class ReservationService {
     }
 
     public function getReservedSeats($trip_no) {
+        $this->ensureSeatInventory($trip_no);
         $trip_no = $this->db->escape($trip_no);
         $sql = "SELECT * FROM seat_info WHERE trip_no = $trip_no AND status IN ('reserved', 'booked')";
         $result = $this->db->query($sql);
