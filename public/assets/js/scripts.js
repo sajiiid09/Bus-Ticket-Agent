@@ -62,6 +62,11 @@ $(document).ready(() => {
     })
 })
 
+// Seat selection events (modal content is injected dynamically)
+$(document).on("change", '#seatSelectionContent input[name="selected_seats[]"]', () => {
+  updateSeatSelectionSummary()
+})
+
 // Load bus info via AJAX
 function loadBusInfo(busId) {
   $.ajax({
@@ -182,3 +187,64 @@ $('input[type="tel"], input[type="text"]:not(form)').on("keypress", (e) => {
     e.preventDefault()
   }
 })
+
+function initializeSeatSelectionUI() {
+  updateSeatSelectionSummary()
+}
+
+function updateSeatSelectionSummary() {
+  const container = document.querySelector('#seatSelectionContent')
+  if (!container) return
+
+  const selectedSeats = Array.from(
+    container.querySelectorAll('input[name="selected_seats[]"]:checked'),
+  ).map((seat) => seat.value)
+
+  const seatsDisplay = container.querySelector('#selectedSeatsDisplay')
+  const farePerSeat = parseFloat(container.querySelector('#tripFarePerSeat')?.value || '0')
+  const totalFare = (selectedSeats.length * farePerSeat).toFixed(2)
+
+  if (seatsDisplay) {
+    seatsDisplay.textContent = selectedSeats.length ? selectedSeats.join(', ') : 'None'
+  }
+
+  const totalFareEl = container.querySelector('#totalFare')
+  if (totalFareEl) {
+    totalFareEl.textContent = Number.parseFloat(totalFare).toLocaleString('en-BD')
+  }
+}
+
+function proceedToBooking(tripNo) {
+  const container = document.querySelector('#seatSelectionContent')
+  if (!container) {
+    showToast('Unable to continue booking right now. Please try again.', 'error')
+    return
+  }
+
+  const selectedSeats = Array.from(
+    container.querySelectorAll('input[name="selected_seats[]"]:checked'),
+  ).map((seat) => seat.value)
+
+  if (!selectedSeats.length) {
+    showToast('Select at least one seat to continue.', 'warning')
+    return
+  }
+
+  const boardingPoint = container.querySelector('#boarding_point')?.value || ''
+  if (!boardingPoint) {
+    showToast('Please select a boarding point.', 'warning')
+    return
+  }
+
+  const farePerSeat = parseFloat(container.querySelector('#tripFarePerSeat')?.value || '0')
+  const totalFare = (farePerSeat * selectedSeats.length).toFixed(2)
+
+  const params = new URLSearchParams({
+    trip: tripNo,
+    seats: selectedSeats.join(','),
+    fare: totalFare,
+    boarding: boardingPoint,
+  })
+
+  window.location.href = `buy_seat.php?${params.toString()}`
+}
