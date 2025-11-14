@@ -58,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $seat_list = array_filter(array_map('trim', explode(',', $selected_seats)));
 $seat_count = count($seat_list);
+
+if ($seat_count === 0) {
+    header('Location: seat_info.php?trip=' . $trip_no);
+    exit;
+}
 ?>
 
 <?php require_once '../includes/navbar.php'; ?>
