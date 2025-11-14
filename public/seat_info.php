@@ -2,6 +2,7 @@
 /**
  * Seat Selection Page - choose seats before booking
  */
+require_once '../includes/head.php';
 require_once '../app/repositories/BusRepository.php';
 require_once '../app/services/ReservationService.php';
 
