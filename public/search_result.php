@@ -2,8 +2,8 @@
 /**
  * Search Results Page - Display available buses for selected route
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $busRepo = new BusRepository();
 $from_city = isset($_POST['from_city']) ? $_POST['from_city'] : '';
@@ -16,7 +16,7 @@ if ($from_city && $to_city) {
 }
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Results Header -->
 <section class="results-header">
@@ -135,7 +135,7 @@ if ($from_city && $to_city) {
     </div>
 </section>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <style>
 /* Results Header Styling */

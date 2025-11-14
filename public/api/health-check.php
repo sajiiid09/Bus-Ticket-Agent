@@ -4,7 +4,7 @@
  */
 header('Content-Type: application/json');
 
-require_once '../../app/db.php';
+require_once __DIR__ . '/../../app/db.php';
 
 $response = [
     'status' => 'ok',

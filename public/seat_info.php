@@ -2,9 +2,8 @@
 /**
  * Seat Selection Page - choose seats before booking
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
-require_once '../app/services/ReservationService.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../app/services/ReservationService.php';
 
 /**
  * Build the reusable seat-selection markup so both the dedicated
@@ -101,7 +100,8 @@ function renderSeatSelectionMarkup(array $trip, int $trip_no, array $available_s
     return ob_get_clean();
 }
 
-$isAjaxRequest = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'load_seats';
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$isAjaxRequest = $requestMethod === 'POST' && isset($_POST['action']) && $_POST['action'] === 'load_seats';
 $trip_no = $isAjaxRequest ? intval($_POST['trip_no'] ?? 0) : intval($_GET['trip'] ?? 0);
 
 $busRepo = new BusRepository();
@@ -153,8 +153,8 @@ if ($isAjaxRequest) {
     exit;
 }
 
-require_once '../includes/head.php';
-require_once '../includes/navbar.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
 <section class="seat-header">
@@ -193,7 +193,7 @@ require_once '../includes/navbar.php';
     <?php echo $seatSelectionMarkup; ?>
 </section>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <script>
     $(function() {

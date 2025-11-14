@@ -2,9 +2,9 @@
 /**
  * Printable Ticket Page
  */
-require_once '../includes/head.php';
-require_once '../app/services/ReservationService.php';
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/services/ReservationService.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $booking_id = isset($_GET['booking']) ? intval($_GET['booking']) : 0;
 $resService = new ReservationService();
@@ -28,7 +28,7 @@ if (!$booking || $booking['status'] !== 'confirmed') {
 $seats_array = array_filter(array_map('trim', explode(',', $booking['selected_seats'])));
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <section class="ticket-section-wrapper">
     <div class="container">
@@ -348,4 +348,4 @@ body {
 }
 </style>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

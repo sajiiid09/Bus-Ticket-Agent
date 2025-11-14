@@ -68,37 +68,11 @@ UPDATE bus_info SET routes = 'Dhaka-Barishal-Jessore' WHERE id = 3;
 
 -- Base routes
 INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_time, available_seats, total_seats, fare, boarding_points, trip_no) VALUES
--- Green Line (id=1) - Additional Routes
-(1, 'Sylhet', 'Dhaka', '07:00', '15:00', 40, 40, 450.00, 'Sylhet Station, Kumarpara', 10006),
-(1, 'Sylhet', 'Dhaka', '23:00', '07:00', 37, 40, 450.00, 'Sylhet Station, Kumarpara', 10007),
-(1, 'Dhaka', 'Moulvi Bazar', '21:00', '06:00', 40, 40, 500.00, 'Motijheel, Farmgate, Mirpur', 10008),
-(1, 'Moulvi Bazar', 'Dhaka', '22:00', '07:00', 40, 40, 500.00, 'Moulvi Bazar Bus Stand', 10009),
-
--- Hanif Enterprise (id=2) - Additional Routes
-(2, 'Chattogram', 'Dhaka', '09:00', '15:00', 40, 40, 350.00, 'GEC Circle, Bahaddarhat', 10010),
-(2, 'Chattogram', 'Dhaka', '21:00', '03:00', 36, 40, 350.00, 'GEC Circle, Bahaddarhat', 10011),
-(2, 'Dhaka', 'Chattogram', '14:00', '20:00', 40, 40, 350.00, 'Sadarghat, Motijheel, Sayedabad', 10012),
-(2, 'Chattogram', 'Dhaka', '15:00', '21:00', 34, 40, 350.00, 'GEC Circle, Bahaddarhat, Oxygen', 10013),
-
--- Shohag Paribahan (id=3) - Additional Routes
-(3, 'Barishal', 'Dhaka', '08:00', '13:00', 40, 40, 280.00, 'Barishal Bus Terminal, Nathullabad', 10014),
-(3, 'Barishal', 'Dhaka', '17:00', '22:00', 38, 40, 280.00, 'Barishal Bus Terminal, Nathullabad', 10015),
-(3, 'Dhaka', 'Barishal', '07:00', '12:00', 40, 40, 280.00, 'Farmgate, Gulshan, Sayedabad', 10016),
-(3, 'Dhaka', 'Barishal', '22:00', '03:00', 35, 40, 280.00, 'Farmgate, Gulshan', 10017),
-(3, 'Dhaka', 'Jessore', '06:00', '11:00', 40, 40, 320.00, 'Gabtoli, Farmgate, Kalyanpur', 10026),
-(3, 'Dhaka', 'Jessore', '15:00', '20:00', 38, 40, 320.00, 'Gabtoli, Farmgate, Kalyanpur', 10027),
-(3, 'Jessore', 'Dhaka', '07:00', '12:00', 40, 40, 320.00, 'Jessore Bus Terminal, Bypass', 10028),
-(3, 'Jessore', 'Dhaka', '16:00', '21:00', 36, 40, 320.00, 'Jessore Bus Terminal, Bypass', 10029),
-
--- Ena Transport (id=4) - Routes to Cox's Bazar and Rangamati
-(4, 'Dhaka', 'Cox\'s Bazar', '19:00', '07:00', 40, 40, 850.00, 'Motijheel, Sayedabad, Jatrabari', 10018),
-(4, 'Dhaka', 'Cox\'s Bazar', '21:00', '09:00', 38, 40, 850.00, 'Motijheel, Sayedabad, Jatrabari', 10019),
-(4, 'Cox\'s Bazar', 'Dhaka', '20:00', '08:00', 40, 40, 850.00, 'Kolatoli, Hotel Motel Zone', 10020),
-(4, 'Cox\'s Bazar', 'Dhaka', '22:00', '10:00', 36, 40, 850.00, 'Kolatoli, Hotel Motel Zone', 10021),
-(4, 'Dhaka', 'Rangamati', '07:00', '14:00', 40, 40, 650.00, 'Sayedabad, Jatrabari', 10022),
-(4, 'Dhaka', 'Rangamati', '16:00', '23:00', 40, 40, 650.00, 'Sayedabad, Jatrabari', 10023),
-(4, 'Rangamati', 'Dhaka', '08:00', '15:00', 40, 40, 650.00, 'Rangamati Bus Stand, Reserve Bazar', 10024),
-(4, 'Rangamati', 'Dhaka', '17:00', '00:00', 37, 40, 650.00, 'Rangamati Bus Stand, Reserve Bazar', 10025);
+(1, 'Dhaka', 'Sylhet', '22:00', '06:00', 40, 40, 450.00, 'Motijheel, Farmgate, Mirpur', 10001),
+(1, 'Dhaka', 'Sylhet', '18:00', '02:00', 35, 40, 450.00, 'Motijheel, Farmgate, Mirpur', 10002),
+(2, 'Dhaka', 'Chattogram', '08:00', '14:00', 38, 40, 350.00, 'Sadarghat, Motijheel', 10003),
+(2, 'Dhaka', 'Chattogram', '20:00', '02:00', 32, 40, 350.00, 'Sadarghat, Motijheel', 10004),
+(3, 'Dhaka', 'Barishal', '16:00', '21:00', 40, 40, 280.00, 'Farmgate, Gulshan', 10005);
 
 -- Extended routes for all buses
 INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_time, available_seats, total_seats, fare, boarding_points, trip_no) VALUES

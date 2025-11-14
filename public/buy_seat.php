@@ -2,9 +2,9 @@
 /**
  * Booking Form - Passenger information and confirmation
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
-require_once '../app/services/ReservationService.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../app/services/ReservationService.php';
 
 $trip_no = isset($_GET['trip']) ? intval($_GET['trip']) : 0;
 $busRepo = new BusRepository();
@@ -65,7 +65,7 @@ if ($seat_count === 0) {
 }
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Header -->
 <section class="booking-header">
@@ -271,7 +271,7 @@ if ($seat_count === 0) {
     </div>
 </section>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <style>
 /* Booking Header */

@@ -2,7 +2,7 @@
 /**
  * Bus Info Modal - AJAX endpoint for loading bus details
  */
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $bus_id = isset($_POST['bus_id']) ? intval($_POST['bus_id']) : 0;
 

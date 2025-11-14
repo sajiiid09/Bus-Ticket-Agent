@@ -2,15 +2,15 @@
 /**
  * Homepage - Bus Search and Booking
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $busRepo = new BusRepository();
 $buses = $busRepo->getAllBuses();
 $cities = $busRepo->getRouteCities();
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Hero Section -->
 <section class="hero">
@@ -143,7 +143,7 @@ $cities = $busRepo->getRouteCities();
     </div>
 </section>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <script>
 // Navbar shrink effect
