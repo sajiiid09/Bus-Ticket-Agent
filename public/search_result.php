@@ -2,8 +2,8 @@
 /**
  * Search Results Page - Display available buses for selected route
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $busRepo = new BusRepository();
 $from_city = isset($_POST['from_city']) ? $_POST['from_city'] : '';
@@ -16,7 +16,7 @@ if ($from_city && $to_city) {
 }
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Results Header -->
 <section class="results-header">
@@ -102,9 +102,9 @@ if ($from_city && $to_city) {
                             <span class="fare-label">From</span>
                             <span class="fare-amount">৳<?php echo number_format($trip['fare'], 0); ?></span>
                         </div>
-                        <button class="btn-select-bus" data-trip-id="<?php echo $trip['trip_no']; ?>" data-trip-fare="<?php echo $trip['fare']; ?>" data-trip-name="<?php echo htmlspecialchars($trip['bus_name']); ?>" data-trip-time="<?php echo date('H:i', strtotime($trip['departure_time'])); ?>">
+                        <a class="btn-select-bus" href="seat_info.php?trip=<?php echo $trip['trip_no']; ?>">
                             Select Bus
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -120,60 +120,22 @@ if ($from_city && $to_city) {
     </div>
 </section>
 
-<?php require_once '../includes/modals.php'; ?>
-<?php require_once '../includes/footer.php'; ?>
-
-<!-- Bus Info Modal Handler -->
-<div class="modal fade" id="modalBusDetails" tabindex="-1" role="dialog" aria-labelledby="modalBusDetailsLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalBusDetailsLabel">Bus Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Static Route Map for reference -->
+<section class="route-map-section" id="route-map">
+    <div class="container">
+        <div class="route-map-card">
+            <div>
+                <h2>Popular Route Map</h2>
+                <p>Preview the coverage map for major intercity routes before finalizing your booking.</p>
             </div>
-            <div class="modal-body" id="busDetailsContent">
-                <!-- Loaded via AJAX -->
+            <div class="route-map-preview">
+                <img src="placeholder.svg" alt="Routes map preview" />
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<script>
-// Store trip data in session for seat selection
-$('.btn-select-bus').on('click', function() {
-    const tripId = $(this).data('trip-id');
-    const tripFare = $(this).data('trip-fare');
-    const tripName = $(this).data('trip-name');
-    const tripTime = $(this).data('trip-time');
-    
-    // Store in sessionStorage for access in seat_info
-    sessionStorage.setItem('trip_no', tripId);
-    sessionStorage.setItem('trip_fare_per_seat', tripFare);
-    sessionStorage.setItem('trip_name', tripName);
-    sessionStorage.setItem('trip_time', tripTime);
-    
-    // Load seat selection modal
-    loadSeatSelection(tripId);
-});
-
-// Load seat selection via AJAX
-function loadSeatSelection(tripId) {
-    $.ajax({
-        url: 'seat_info.php',
-        method: 'POST',
-        data: { trip_no: tripId, action: 'load_seats' },
-        success: function(data) {
-            $('#seatSelectionContent').html(data);
-            $('#modalSeatSelection').modal('show');
-        },
-        error: function() {
-            alert('Error loading seats. Please try again.');
-        }
-    });
-}
-</script>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <style>
 /* Results Header Styling */

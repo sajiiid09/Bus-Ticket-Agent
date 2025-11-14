@@ -2,14 +2,15 @@
 /**
  * Homepage - Bus Search and Booking
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
 
 $busRepo = new BusRepository();
 $buses = $busRepo->getAllBuses();
+$cities = $busRepo->getRouteCities();
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Hero Section -->
 <section class="hero">
@@ -25,11 +26,21 @@ $buses = $busRepo->getAllBuses();
         <div class="search-form-row">
             <div class="form-group">
                 <label for="from">From City</label>
-                <input type="text" id="from" name="from_city" placeholder="e.g., Dhaka" required>
+                <select id="from" name="from_city" required>
+                    <option value="">Select departure city</option>
+                    <?php foreach ($cities as $city): ?>
+                        <option value="<?php echo htmlspecialchars($city); ?>"><?php echo htmlspecialchars($city); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="to">To City</label>
-                <input type="text" id="to" name="to_city" placeholder="e.g., Sylhet" required>
+                <select id="to" name="to_city" required>
+                    <option value="">Select arrival city</option>
+                    <?php foreach ($cities as $city): ?>
+                        <option value="<?php echo htmlspecialchars($city); ?>"><?php echo htmlspecialchars($city); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="date">Journey Date</label>
@@ -120,31 +131,6 @@ $buses = $busRepo->getAllBuses();
     </div>
 </section>
 
-<!-- Routes Section -->
-<section class="routes-section">
-    <div class="container">
-        <h2 class="section-title">Popular Routes</h2>
-        <div class="routes-container">
-            <div class="route-card">
-                <div class="route-cities">Dhaka <span class="route-arrow">→</span> Sylhet</div>
-                <p class="route-description">10+ buses daily</p>
-            </div>
-            <div class="route-card">
-                <div class="route-cities">Dhaka <span class="route-arrow">→</span> Chattogram</div>
-                <p class="route-description">15+ buses daily</p>
-            </div>
-            <div class="route-card">
-                <div class="route-cities">Dhaka <span class="route-arrow">→</span> Barishal</div>
-                <p class="route-description">8+ buses daily</p>
-            </div>
-            <div class="route-card">
-                <div class="route-cities">Dhaka <span class="route-arrow">→</span> Khulna</div>
-                <p class="route-description">6+ buses daily</p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Payment Methods -->
 <section class="payment-section">
     <p style="margin-bottom: 20px; font-weight: 600; color: var(--text-primary);">We Accept Multiple Payment Methods</p>
@@ -157,8 +143,7 @@ $buses = $busRepo->getAllBuses();
     </div>
 </section>
 
-<?php require_once '../includes/modals.php'; ?>
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <script>
 // Navbar shrink effect

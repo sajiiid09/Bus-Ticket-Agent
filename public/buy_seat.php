@@ -2,9 +2,9 @@
 /**
  * Booking Form - Passenger information and confirmation
  */
-require_once '../includes/head.php';
-require_once '../app/repositories/BusRepository.php';
-require_once '../app/services/ReservationService.php';
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '/../app/repositories/BusRepository.php';
+require_once __DIR__ . '/../app/services/ReservationService.php';
 
 $trip_no = isset($_GET['trip']) ? intval($_GET['trip']) : 0;
 $busRepo = new BusRepository();
@@ -49,9 +49,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $selected_seats = isset($_GET['seats']) ? $_GET['seats'] : '';
 $boarding_point = isset($_GET['boarding']) ? $_GET['boarding'] : '';
 $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selected_seats = $_POST['selected_seats'] ?? $selected_seats;
+    $total_fare = isset($_POST['total_fare']) ? floatval($_POST['total_fare']) : $total_fare;
+    $boarding_point = $_POST['boarding_point'] ?? $boarding_point;
+}
+
+$seat_list = array_filter(array_map('trim', explode(',', $selected_seats)));
+$seat_count = count($seat_list);
+
+if ($seat_count === 0) {
+    header('Location: seat_info.php?trip=' . $trip_no);
+    exit;
+}
 ?>
 
-<?php require_once '../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <!-- Header -->
 <section class="booking-header">
@@ -176,8 +190,8 @@ $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
                         
                         <!-- Hidden fields for data passing -->
                         <input type="hidden" name="trip_no" value="<?php echo $trip_no; ?>">
-                        <input type="hidden" name="selected_seats" id="hidden_selected_seats" value="">
-                        <input type="hidden" name="total_fare" id="hidden_total_fare" value="">
+                        <input type="hidden" name="selected_seats" id="hidden_selected_seats" value="<?php echo htmlspecialchars($selected_seats); ?>">
+                        <input type="hidden" name="total_fare" id="hidden_total_fare" value="<?php echo htmlspecialchars(number_format($total_fare, 2, '.', '')); ?>">
                     </form>
                 </div>
             </div>
@@ -216,7 +230,13 @@ $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
                     <div class="summary-section">
                         <h3 class="summary-section-title">Selected Seats</h3>
                         <div class="seats-display" id="seatsDisplay">
-                            <!-- Populated from sessionStorage -->
+                            <?php if ($seat_count > 0): ?>
+                                <?php foreach ($seat_list as $seat): ?>
+                                    <span class="seat-badge"><?php echo htmlspecialchars($seat); ?></span>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <span class="text-muted">No seats selected yet.</span>
+                            <?php endif; ?>
                         </div>
                     </div>
                     
@@ -224,7 +244,7 @@ $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
                     <div class="summary-section fare-breakdown">
                         <div class="breakdown-item">
                             <span class="breakdown-label">Seats Selected:</span>
-                            <span class="breakdown-value" id="seatCount">0</span>
+                            <span class="breakdown-value" id="seatCount"><?php echo $seat_count; ?></span>
                         </div>
                         <div class="breakdown-item">
                             <span class="breakdown-label">Fare per Seat:</span>
@@ -236,7 +256,7 @@ $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
                         </div>
                         <div class="breakdown-item total">
                             <span class="breakdown-label">Total Fare:</span>
-                            <span class="breakdown-value">৳<span id="summaryTotalFare">0</span></span>
+                            <span class="breakdown-value">৳<span id="summaryTotalFare"><?php echo number_format($total_fare, 0); ?></span></span>
                         </div>
                     </div>
                     
@@ -251,7 +271,7 @@ $total_fare = isset($_GET['fare']) ? floatval($_GET['fare']) : 0;
     </div>
 </section>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
 
 <style>
 /* Booking Header */

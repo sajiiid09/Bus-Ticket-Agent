@@ -1,5 +1,10 @@
 -- Bus Service Database Schema
 
+DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS seat_info;
+DROP TABLE IF EXISTS bus_lists;
+DROP TABLE IF EXISTS bus_info;
+
 CREATE TABLE IF NOT EXISTS bus_info (
   id INT PRIMARY KEY AUTO_INCREMENT,
   bus_name VARCHAR(100) NOT NULL,
@@ -51,12 +56,17 @@ CREATE TABLE IF NOT EXISTS bookings (
   FOREIGN KEY (trip_no) REFERENCES bus_lists(trip_no)
 );
 
--- Sample Data
+-- Sample Data for bus operators
 INSERT INTO bus_info (bus_name, company, no_bus, routes, image) VALUES
 ('Green Line Super', 'Green Line Paribahan', 15, 'Dhaka-Sylhet-Moulvi Bazar', 'greenline.jpg bus1.jpg bus2.jpg'),
 ('Hanif Enterprise', 'Hanif Enterprise', 20, 'Dhaka-Chattogram', 'hanif1.jpg hanif2.jpg hanif3.jpg'),
-('Shohag Paribahan', 'Shohag Paribahan', 12, 'Dhaka-Barishal', 'shohag1.jpg shohag2.jpg shohag3.jpg');
+('Shohag Paribahan', 'Shohag Paribahan', 12, 'Dhaka-Barishal', 'shohag1.jpg shohag2.jpg shohag3.jpg'),
+('Ena Transport', 'Ena Transport', 18, 'Dhaka-Cox\'s Bazar-Rangamati', 'ena1.jpg ena2.jpg ena3.jpg');
 
+-- Update Shohag Paribahan routes to include Jessore
+UPDATE bus_info SET routes = 'Dhaka-Barishal-Jessore' WHERE id = 3;
+
+-- Base routes
 INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_time, available_seats, total_seats, fare, boarding_points, trip_no) VALUES
 (1, 'Dhaka', 'Sylhet', '22:00', '06:00', 40, 40, 450.00, 'Motijheel, Farmgate, Mirpur', 10001),
 (1, 'Dhaka', 'Sylhet', '18:00', '02:00', 35, 40, 450.00, 'Motijheel, Farmgate, Mirpur', 10002),
@@ -64,15 +74,73 @@ INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_tim
 (2, 'Dhaka', 'Chattogram', '20:00', '02:00', 32, 40, 350.00, 'Sadarghat, Motijheel', 10004),
 (3, 'Dhaka', 'Barishal', '16:00', '21:00', 40, 40, 280.00, 'Farmgate, Gulshan', 10005);
 
--- Initialize seat_info for each trip
-INSERT INTO seat_info (trip_no, seat_number, status) VALUES
-(10001, 'A1', 'available'), (10001, 'A2', 'available'), (10001, 'A3', 'available'), (10001, 'A4', 'available'),
-(10001, 'B1', 'available'), (10001, 'B2', 'available'), (10001, 'B3', 'available'), (10001, 'B4', 'available'),
-(10001, 'C1', 'available'), (10001, 'C2', 'available'), (10001, 'C3', 'available'), (10001, 'C4', 'available'),
-(10001, 'D1', 'available'), (10001, 'D2', 'available'), (10001, 'D3', 'available'), (10001, 'D4', 'available'),
-(10001, 'E1', 'available'), (10001, 'E2', 'available'), (10001, 'E3', 'available'), (10001, 'E4', 'available'),
-(10001, 'F1', 'available'), (10001, 'F2', 'available'), (10001, 'F3', 'available'), (10001, 'F4', 'available'),
-(10001, 'G1', 'available'), (10001, 'G2', 'available'), (10001, 'G3', 'available'), (10001, 'G4', 'available'),
-(10001, 'H1', 'available'), (10001, 'H2', 'available'), (10001, 'H3', 'available'), (10001, 'H4', 'available'),
-(10001, 'I1', 'available'), (10001, 'I2', 'available'), (10001, 'I3', 'available'), (10001, 'I4', 'available'),
-(10001, 'J1', 'available'), (10001, 'J2', 'available'), (10001, 'J3', 'available'), (10001, 'J4', 'available');
+-- Extended routes for all buses
+INSERT INTO bus_lists (bus_id, route_from, route_to, departure_time, arrival_time, available_seats, total_seats, fare, boarding_points, trip_no) VALUES
+-- Green Line (id=1) - Additional Routes
+(1, 'Sylhet', 'Dhaka', '07:00', '15:00', 40, 40, 450.00, 'Sylhet Station, Kumarpara', 10006),
+(1, 'Sylhet', 'Dhaka', '23:00', '07:00', 37, 40, 450.00, 'Sylhet Station, Kumarpara', 10007),
+(1, 'Dhaka', 'Moulvi Bazar', '21:00', '06:00', 40, 40, 500.00, 'Motijheel, Farmgate, Mirpur', 10008),
+(1, 'Moulvi Bazar', 'Dhaka', '22:00', '07:00', 40, 40, 500.00, 'Moulvi Bazar Bus Stand', 10009),
+
+-- Hanif Enterprise (id=2) - Additional Routes
+(2, 'Chattogram', 'Dhaka', '09:00', '15:00', 40, 40, 350.00, 'GEC Circle, Bahaddarhat', 10010),
+(2, 'Chattogram', 'Dhaka', '21:00', '03:00', 36, 40, 350.00, 'GEC Circle, Bahaddarhat', 10011),
+(2, 'Dhaka', 'Chattogram', '14:00', '20:00', 40, 40, 350.00, 'Sadarghat, Motijheel, Sayedabad', 10012),
+(2, 'Chattogram', 'Dhaka', '15:00', '21:00', 34, 40, 350.00, 'GEC Circle, Bahaddarhat, Oxygen', 10013),
+
+-- Shohag Paribahan (id=3) - Additional Routes
+(3, 'Barishal', 'Dhaka', '08:00', '13:00', 40, 40, 280.00, 'Barishal Bus Terminal, Nathullabad', 10014),
+(3, 'Barishal', 'Dhaka', '17:00', '22:00', 38, 40, 280.00, 'Barishal Bus Terminal, Nathullabad', 10015),
+(3, 'Dhaka', 'Barishal', '07:00', '12:00', 40, 40, 280.00, 'Farmgate, Gulshan, Sayedabad', 10016),
+(3, 'Dhaka', 'Barishal', '22:00', '03:00', 35, 40, 280.00, 'Farmgate, Gulshan', 10017),
+(3, 'Dhaka', 'Jessore', '06:00', '11:00', 40, 40, 320.00, 'Gabtoli, Farmgate, Kalyanpur', 10026),
+(3, 'Dhaka', 'Jessore', '15:00', '20:00', 38, 40, 320.00, 'Gabtoli, Farmgate, Kalyanpur', 10027),
+(3, 'Jessore', 'Dhaka', '07:00', '12:00', 40, 40, 320.00, 'Jessore Bus Terminal, Bypass', 10028),
+(3, 'Jessore', 'Dhaka', '16:00', '21:00', 36, 40, 320.00, 'Jessore Bus Terminal, Bypass', 10029),
+
+-- Ena Transport (id=4) - Routes to Cox's Bazar and Rangamati
+(4, 'Dhaka', 'Cox\'s Bazar', '19:00', '07:00', 40, 40, 850.00, 'Motijheel, Sayedabad, Jatrabari', 10018),
+(4, 'Dhaka', 'Cox\'s Bazar', '21:00', '09:00', 38, 40, 850.00, 'Motijheel, Sayedabad, Jatrabari', 10019),
+(4, 'Cox\'s Bazar', 'Dhaka', '20:00', '08:00', 40, 40, 850.00, 'Kolatoli, Hotel Motel Zone', 10020),
+(4, 'Cox\'s Bazar', 'Dhaka', '22:00', '10:00', 36, 40, 850.00, 'Kolatoli, Hotel Motel Zone', 10021),
+(4, 'Dhaka', 'Rangamati', '07:00', '14:00', 40, 40, 650.00, 'Sayedabad, Jatrabari', 10022),
+(4, 'Dhaka', 'Rangamati', '16:00', '23:00', 40, 40, 650.00, 'Sayedabad, Jatrabari', 10023),
+(4, 'Rangamati', 'Dhaka', '08:00', '15:00', 40, 40, 650.00, 'Rangamati Bus Stand, Reserve Bazar', 10024),
+(4, 'Rangamati', 'Dhaka', '17:00', '00:00', 37, 40, 650.00, 'Rangamati Bus Stand, Reserve Bazar', 10025);
+
+-- Initialize seat_info for every trip with a 4x10 layout (A1-J4)
+INSERT INTO seat_info (trip_no, seat_number, status)
+SELECT bl.trip_no,
+       CONCAT(rows.row_label, cols.col_number) AS seat_number,
+       'available' AS status
+FROM bus_lists bl
+CROSS JOIN (
+    SELECT 'A' AS row_label UNION ALL SELECT 'B' UNION ALL SELECT 'C' UNION ALL SELECT 'D'
+    UNION ALL SELECT 'E' UNION ALL SELECT 'F' UNION ALL SELECT 'G' UNION ALL SELECT 'H'
+    UNION ALL SELECT 'I' UNION ALL SELECT 'J'
+) AS rows
+CROSS JOIN (
+    SELECT 1 AS col_number UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+) AS cols;
+
+-- Sample bookings for demonstration
+INSERT INTO bookings (trip_no, passenger_name, mobile, gender, selected_seats, boarding_point, payment_method, transaction_id, total_fare, status) VALUES
+(10001, 'Abdul Karim', '01712345678', 'Male', 'A1,A2', 'Motijheel', 'bKash', 'BKA12345678', 900.00, 'confirmed'),
+(10003, 'Fatema Begum', '01812345679', 'Female', 'C3', 'Sadarghat', 'Nagad', 'NAG98765432', 350.00, 'confirmed'),
+(10010, 'Rafiq Hossain', '01912345680', 'Male', 'B1,B2', 'GEC Circle', 'Rocket', 'ROC11223344', 700.00, 'confirmed'),
+(10018, 'Shahana Akter', '01612345681', 'Female', 'D1', 'Motijheel', 'bKash', 'BKA55667788', 850.00, 'pending'),
+(10014, 'Kamal Uddin', '01512345682', 'Male', 'E1,E2,E3', 'Barishal Bus Terminal', 'Card', 'CARD99887766', 840.00, 'confirmed');
+
+-- Update seat statuses for booked seats
+UPDATE seat_info SET status = 'booked' WHERE trip_no = 10001 AND seat_number IN ('A1', 'A2');
+UPDATE seat_info SET status = 'booked' WHERE trip_no = 10003 AND seat_number = 'C3';
+UPDATE seat_info SET status = 'booked' WHERE trip_no = 10010 AND seat_number IN ('B1', 'B2');
+UPDATE seat_info SET status = 'booked' WHERE trip_no = 10018 AND seat_number = 'D1';
+UPDATE seat_info SET status = 'booked' WHERE trip_no = 10014 AND seat_number IN ('E1', 'E2', 'E3');
+
+-- Update available seats count
+UPDATE bus_lists SET available_seats = available_seats - 2 WHERE trip_no = 10001;
+UPDATE bus_lists SET available_seats = available_seats - 1 WHERE trip_no = 10003;
+UPDATE bus_lists SET available_seats = available_seats - 2 WHERE trip_no = 10010;
+UPDATE bus_lists SET available_seats = available_seats - 1 WHERE trip_no = 10018;
+UPDATE bus_lists SET available_seats = available_seats - 3 WHERE trip_no = 10014;
